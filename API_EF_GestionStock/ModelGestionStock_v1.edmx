@@ -1,0 +1,870 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GestionStock_v1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Devolucion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Usuario" Type="int" />
+          <Property Name="FechaCreacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Envio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="11" Nullable="false" />
+          <Property Name="ID_Usuario" Type="int" />
+          <Property Name="FechaCreacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EstadoLote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="19" Nullable="false" />
+          <Property Name="CantidadInicial" Type="int" />
+          <Property Name="CantidadActual" Type="int" />
+          <Property Name="FechaCreacion" Type="datetime" />
+          <Property Name="ID_Producto" Type="int" />
+          <Property Name="ID_Usuario" Type="int" />
+        </EntityType>
+        <EntityType Name="LoteXDevolucion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="FechaCreacion" Type="datetime" />
+          <Property Name="ID_Lote" Type="int" />
+          <Property Name="ID_Devolucion" Type="int" />
+          <Property Name="ID_EstadoLote" Type="int" />
+        </EntityType>
+        <EntityType Name="LoteXEnvio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CantidadInicial" Type="int" />
+          <Property Name="CantidadRecibido" Type="int" />
+          <Property Name="CantidadActual" Type="int" />
+          <Property Name="ID_EstadoLote" Type="int" />
+          <Property Name="ID_Lote" Type="int" />
+          <Property Name="ID_Envio" Type="int" />
+        </EntityType>
+        <EntityType Name="LoteXEnvioXVenta">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_LoteXEnvio" Type="int" />
+          <Property Name="ID_Venta" Type="int" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="Habilitado" Type="bit" />
+          <Property Name="FechaCreacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreUsuario" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contrasena" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" />
+          <Property Name="ID_Rol" Type="int" />
+        </EntityType>
+        <EntityType Name="Venta">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" />
+          <Property Name="ID_Usuario" Type="int" />
+        </EntityType>
+        <Association Name="FK__Devolucio__ID_Us__628FA481">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Devolucion" Type="Self.Devolucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Devolucion">
+              <PropertyRef Name="ID_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Envio__ID_Usuari__44FF419A">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Envio" Type="Self.Envio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Envio">
+              <PropertyRef Name="ID_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lote__ID_Product__4BAC3F29">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="Lote" Type="Self.Lote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lote">
+              <PropertyRef Name="ID_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lote__ID_Usuario__4CA06362">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Lote" Type="Self.Lote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lote">
+              <PropertyRef Name="ID_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXDevo__ID_De__693CA210">
+          <End Role="Devolucion" Type="Self.Devolucion" Multiplicity="0..1" />
+          <End Role="LoteXDevolucion" Type="Self.LoteXDevolucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devolucion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXDevolucion">
+              <PropertyRef Name="ID_Devolucion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXDevo__ID_Es__6A30C649">
+          <End Role="EstadoLote" Type="Self.EstadoLote" Multiplicity="0..1" />
+          <End Role="LoteXDevolucion" Type="Self.LoteXDevolucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoLote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXDevolucion">
+              <PropertyRef Name="ID_EstadoLote" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXDevo__ID_Lo__68487DD7">
+          <End Role="Lote" Type="Self.Lote" Multiplicity="0..1" />
+          <End Role="LoteXDevolucion" Type="Self.LoteXDevolucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXDevolucion">
+              <PropertyRef Name="ID_Lote" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXEnvi__ID_En__5BE2A6F2">
+          <End Role="Envio" Type="Self.Envio" Multiplicity="0..1" />
+          <End Role="LoteXEnvio" Type="Self.LoteXEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Envio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXEnvio">
+              <PropertyRef Name="ID_Envio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXEnvi__ID_Es__59FA5E80">
+          <End Role="EstadoLote" Type="Self.EstadoLote" Multiplicity="0..1" />
+          <End Role="LoteXEnvio" Type="Self.LoteXEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoLote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXEnvio">
+              <PropertyRef Name="ID_EstadoLote" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXEnvi__ID_Lo__5AEE82B9">
+          <End Role="Lote" Type="Self.Lote" Multiplicity="0..1" />
+          <End Role="LoteXEnvio" Type="Self.LoteXEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXEnvio">
+              <PropertyRef Name="ID_Lote" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXEnvi__ID_Lo__5EBF139D">
+          <End Role="LoteXEnvio" Type="Self.LoteXEnvio" Multiplicity="0..1" />
+          <End Role="LoteXEnvioXVenta" Type="Self.LoteXEnvioXVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoteXEnvio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXEnvioXVenta">
+              <PropertyRef Name="ID_LoteXEnvio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXEnvi__ID_Ve__5FB337D6">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="0..1" />
+          <End Role="LoteXEnvioXVenta" Type="Self.LoteXEnvioXVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venta">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXEnvioXVenta">
+              <PropertyRef Name="ID_Venta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__ID_Rol__3A81B327">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="ID_Rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Venta__ID_Usuari__4222D4EF">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="ID_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GestionStock_v1ModelStoreContainer">
+          <EntitySet Name="Devolucion" EntityType="Self.Devolucion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Envio" EntityType="Self.Envio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoLote" EntityType="Self.EstadoLote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lote" EntityType="Self.Lote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoteXDevolucion" EntityType="Self.LoteXDevolucion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoteXEnvio" EntityType="Self.LoteXEnvio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoteXEnvioXVenta" EntityType="Self.LoteXEnvioXVenta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Venta" EntityType="Self.Venta" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Devolucio__ID_Us__628FA481" Association="Self.FK__Devolucio__ID_Us__628FA481">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Devolucion" EntitySet="Devolucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Envio__ID_Usuari__44FF419A" Association="Self.FK__Envio__ID_Usuari__44FF419A">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Envio" EntitySet="Envio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lote__ID_Product__4BAC3F29" Association="Self.FK__Lote__ID_Product__4BAC3F29">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Lote" EntitySet="Lote" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lote__ID_Usuario__4CA06362" Association="Self.FK__Lote__ID_Usuario__4CA06362">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Lote" EntitySet="Lote" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXDevo__ID_De__693CA210" Association="Self.FK__LoteXDevo__ID_De__693CA210">
+            <End Role="Devolucion" EntitySet="Devolucion" />
+            <End Role="LoteXDevolucion" EntitySet="LoteXDevolucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXDevo__ID_Es__6A30C649" Association="Self.FK__LoteXDevo__ID_Es__6A30C649">
+            <End Role="EstadoLote" EntitySet="EstadoLote" />
+            <End Role="LoteXDevolucion" EntitySet="LoteXDevolucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXDevo__ID_Lo__68487DD7" Association="Self.FK__LoteXDevo__ID_Lo__68487DD7">
+            <End Role="Lote" EntitySet="Lote" />
+            <End Role="LoteXDevolucion" EntitySet="LoteXDevolucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXEnvi__ID_En__5BE2A6F2" Association="Self.FK__LoteXEnvi__ID_En__5BE2A6F2">
+            <End Role="Envio" EntitySet="Envio" />
+            <End Role="LoteXEnvio" EntitySet="LoteXEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXEnvi__ID_Es__59FA5E80" Association="Self.FK__LoteXEnvi__ID_Es__59FA5E80">
+            <End Role="EstadoLote" EntitySet="EstadoLote" />
+            <End Role="LoteXEnvio" EntitySet="LoteXEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXEnvi__ID_Lo__5AEE82B9" Association="Self.FK__LoteXEnvi__ID_Lo__5AEE82B9">
+            <End Role="Lote" EntitySet="Lote" />
+            <End Role="LoteXEnvio" EntitySet="LoteXEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXEnvi__ID_Lo__5EBF139D" Association="Self.FK__LoteXEnvi__ID_Lo__5EBF139D">
+            <End Role="LoteXEnvio" EntitySet="LoteXEnvio" />
+            <End Role="LoteXEnvioXVenta" EntitySet="LoteXEnvioXVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXEnvi__ID_Ve__5FB337D6" Association="Self.FK__LoteXEnvi__ID_Ve__5FB337D6">
+            <End Role="Venta" EntitySet="Venta" />
+            <End Role="LoteXEnvioXVenta" EntitySet="LoteXEnvioXVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__ID_Rol__3A81B327" Association="Self.FK__Usuario__ID_Rol__3A81B327">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Venta__ID_Usuari__4222D4EF" Association="Self.FK__Venta__ID_Usuari__4222D4EF">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GestionStock_v1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Devolucion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Usuario" Type="Int32" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Devolucio__ID_Us__628FA481" FromRole="Devolucion" ToRole="Usuario" />
+          <NavigationProperty Name="LoteXDevolucion" Relationship="Self.FK__LoteXDevo__ID_De__693CA210" FromRole="Devolucion" ToRole="LoteXDevolucion" />
+        </EntityType>
+        <EntityType Name="Envio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID_Usuario" Type="Int32" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Envio__ID_Usuari__44FF419A" FromRole="Envio" ToRole="Usuario" />
+          <NavigationProperty Name="LoteXEnvio" Relationship="Self.FK__LoteXEnvi__ID_En__5BE2A6F2" FromRole="Envio" ToRole="LoteXEnvio" />
+        </EntityType>
+        <EntityType Name="EstadoLote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="LoteXDevolucion" Relationship="Self.FK__LoteXDevo__ID_Es__6A30C649" FromRole="EstadoLote" ToRole="LoteXDevolucion" />
+          <NavigationProperty Name="LoteXEnvio" Relationship="Self.FK__LoteXEnvi__ID_Es__59FA5E80" FromRole="EstadoLote" ToRole="LoteXEnvio" />
+        </EntityType>
+        <EntityType Name="Lote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="19" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CantidadInicial" Type="Int32" />
+          <Property Name="CantidadActual" Type="Int32" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="ID_Producto" Type="Int32" />
+          <Property Name="ID_Usuario" Type="Int32" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK__Lote__ID_Product__4BAC3F29" FromRole="Lote" ToRole="Producto" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Lote__ID_Usuario__4CA06362" FromRole="Lote" ToRole="Usuario" />
+          <NavigationProperty Name="LoteXDevolucion" Relationship="Self.FK__LoteXDevo__ID_Lo__68487DD7" FromRole="Lote" ToRole="LoteXDevolucion" />
+          <NavigationProperty Name="LoteXEnvio" Relationship="Self.FK__LoteXEnvi__ID_Lo__5AEE82B9" FromRole="Lote" ToRole="LoteXEnvio" />
+        </EntityType>
+        <EntityType Name="LoteXDevolucion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="ID_Lote" Type="Int32" />
+          <Property Name="ID_Devolucion" Type="Int32" />
+          <Property Name="ID_EstadoLote" Type="Int32" />
+          <NavigationProperty Name="Devolucion" Relationship="Self.FK__LoteXDevo__ID_De__693CA210" FromRole="LoteXDevolucion" ToRole="Devolucion" />
+          <NavigationProperty Name="EstadoLote" Relationship="Self.FK__LoteXDevo__ID_Es__6A30C649" FromRole="LoteXDevolucion" ToRole="EstadoLote" />
+          <NavigationProperty Name="Lote" Relationship="Self.FK__LoteXDevo__ID_Lo__68487DD7" FromRole="LoteXDevolucion" ToRole="Lote" />
+        </EntityType>
+        <EntityType Name="LoteXEnvio">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CantidadInicial" Type="Int32" />
+          <Property Name="CantidadRecibido" Type="Int32" />
+          <Property Name="CantidadActual" Type="Int32" />
+          <Property Name="ID_EstadoLote" Type="Int32" />
+          <Property Name="ID_Lote" Type="Int32" />
+          <Property Name="ID_Envio" Type="Int32" />
+          <NavigationProperty Name="Envio" Relationship="Self.FK__LoteXEnvi__ID_En__5BE2A6F2" FromRole="LoteXEnvio" ToRole="Envio" />
+          <NavigationProperty Name="EstadoLote" Relationship="Self.FK__LoteXEnvi__ID_Es__59FA5E80" FromRole="LoteXEnvio" ToRole="EstadoLote" />
+          <NavigationProperty Name="Lote" Relationship="Self.FK__LoteXEnvi__ID_Lo__5AEE82B9" FromRole="LoteXEnvio" ToRole="Lote" />
+          <NavigationProperty Name="LoteXEnvioXVenta" Relationship="Self.FK__LoteXEnvi__ID_Lo__5EBF139D" FromRole="LoteXEnvio" ToRole="LoteXEnvioXVenta" />
+        </EntityType>
+        <EntityType Name="LoteXEnvioXVenta">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_LoteXEnvio" Type="Int32" />
+          <Property Name="ID_Venta" Type="Int32" />
+          <NavigationProperty Name="LoteXEnvio" Relationship="Self.FK__LoteXEnvi__ID_Lo__5EBF139D" FromRole="LoteXEnvioXVenta" ToRole="LoteXEnvio" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK__LoteXEnvi__ID_Ve__5FB337D6" FromRole="LoteXEnvioXVenta" ToRole="Venta" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Habilitado" Type="Boolean" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Lote" Relationship="Self.FK__Lote__ID_Product__4BAC3F29" FromRole="Producto" ToRole="Lote" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Usuario__ID_Rol__3A81B327" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contrasena" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="ID_Rol" Type="Int32" />
+          <NavigationProperty Name="Devolucion" Relationship="Self.FK__Devolucio__ID_Us__628FA481" FromRole="Usuario" ToRole="Devolucion" />
+          <NavigationProperty Name="Envio" Relationship="Self.FK__Envio__ID_Usuari__44FF419A" FromRole="Usuario" ToRole="Envio" />
+          <NavigationProperty Name="Lote" Relationship="Self.FK__Lote__ID_Usuario__4CA06362" FromRole="Usuario" ToRole="Lote" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK__Usuario__ID_Rol__3A81B327" FromRole="Usuario" ToRole="Rol" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK__Venta__ID_Usuari__4222D4EF" FromRole="Usuario" ToRole="Venta" />
+        </EntityType>
+        <EntityType Name="Venta">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="ID_Usuario" Type="Int32" />
+          <NavigationProperty Name="LoteXEnvioXVenta" Relationship="Self.FK__LoteXEnvi__ID_Ve__5FB337D6" FromRole="Venta" ToRole="LoteXEnvioXVenta" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Venta__ID_Usuari__4222D4EF" FromRole="Venta" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK__Devolucio__ID_Us__628FA481">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Devolucion" Type="Self.Devolucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Devolucion">
+              <PropertyRef Name="ID_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXDevo__ID_De__693CA210">
+          <End Role="Devolucion" Type="Self.Devolucion" Multiplicity="0..1" />
+          <End Role="LoteXDevolucion" Type="Self.LoteXDevolucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devolucion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXDevolucion">
+              <PropertyRef Name="ID_Devolucion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Envio__ID_Usuari__44FF419A">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Envio" Type="Self.Envio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Envio">
+              <PropertyRef Name="ID_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXEnvi__ID_En__5BE2A6F2">
+          <End Role="Envio" Type="Self.Envio" Multiplicity="0..1" />
+          <End Role="LoteXEnvio" Type="Self.LoteXEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Envio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXEnvio">
+              <PropertyRef Name="ID_Envio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXDevo__ID_Es__6A30C649">
+          <End Role="EstadoLote" Type="Self.EstadoLote" Multiplicity="0..1" />
+          <End Role="LoteXDevolucion" Type="Self.LoteXDevolucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoLote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXDevolucion">
+              <PropertyRef Name="ID_EstadoLote" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXEnvi__ID_Es__59FA5E80">
+          <End Role="EstadoLote" Type="Self.EstadoLote" Multiplicity="0..1" />
+          <End Role="LoteXEnvio" Type="Self.LoteXEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoLote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXEnvio">
+              <PropertyRef Name="ID_EstadoLote" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lote__ID_Product__4BAC3F29">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="Lote" Type="Self.Lote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lote">
+              <PropertyRef Name="ID_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lote__ID_Usuario__4CA06362">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Lote" Type="Self.Lote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lote">
+              <PropertyRef Name="ID_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXDevo__ID_Lo__68487DD7">
+          <End Role="Lote" Type="Self.Lote" Multiplicity="0..1" />
+          <End Role="LoteXDevolucion" Type="Self.LoteXDevolucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXDevolucion">
+              <PropertyRef Name="ID_Lote" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXEnvi__ID_Lo__5AEE82B9">
+          <End Role="Lote" Type="Self.Lote" Multiplicity="0..1" />
+          <End Role="LoteXEnvio" Type="Self.LoteXEnvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lote">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXEnvio">
+              <PropertyRef Name="ID_Lote" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXEnvi__ID_Lo__5EBF139D">
+          <End Role="LoteXEnvio" Type="Self.LoteXEnvio" Multiplicity="0..1" />
+          <End Role="LoteXEnvioXVenta" Type="Self.LoteXEnvioXVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoteXEnvio">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXEnvioXVenta">
+              <PropertyRef Name="ID_LoteXEnvio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoteXEnvi__ID_Ve__5FB337D6">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="0..1" />
+          <End Role="LoteXEnvioXVenta" Type="Self.LoteXEnvioXVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venta">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoteXEnvioXVenta">
+              <PropertyRef Name="ID_Venta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__ID_Rol__3A81B327">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="ID_Rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Venta__ID_Usuari__4222D4EF">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="ID_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GestionStock_v1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Devolucion" EntityType="Self.Devolucion" />
+          <EntitySet Name="Envio" EntityType="Self.Envio" />
+          <EntitySet Name="EstadoLote" EntityType="Self.EstadoLote" />
+          <EntitySet Name="Lote" EntityType="Self.Lote" />
+          <EntitySet Name="LoteXDevolucion" EntityType="Self.LoteXDevolucion" />
+          <EntitySet Name="LoteXEnvio" EntityType="Self.LoteXEnvio" />
+          <EntitySet Name="LoteXEnvioXVenta" EntityType="Self.LoteXEnvioXVenta" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <EntitySet Name="Venta" EntityType="Self.Venta" />
+          <AssociationSet Name="FK__Devolucio__ID_Us__628FA481" Association="Self.FK__Devolucio__ID_Us__628FA481">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Devolucion" EntitySet="Devolucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXDevo__ID_De__693CA210" Association="Self.FK__LoteXDevo__ID_De__693CA210">
+            <End Role="Devolucion" EntitySet="Devolucion" />
+            <End Role="LoteXDevolucion" EntitySet="LoteXDevolucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Envio__ID_Usuari__44FF419A" Association="Self.FK__Envio__ID_Usuari__44FF419A">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Envio" EntitySet="Envio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXEnvi__ID_En__5BE2A6F2" Association="Self.FK__LoteXEnvi__ID_En__5BE2A6F2">
+            <End Role="Envio" EntitySet="Envio" />
+            <End Role="LoteXEnvio" EntitySet="LoteXEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXDevo__ID_Es__6A30C649" Association="Self.FK__LoteXDevo__ID_Es__6A30C649">
+            <End Role="EstadoLote" EntitySet="EstadoLote" />
+            <End Role="LoteXDevolucion" EntitySet="LoteXDevolucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXEnvi__ID_Es__59FA5E80" Association="Self.FK__LoteXEnvi__ID_Es__59FA5E80">
+            <End Role="EstadoLote" EntitySet="EstadoLote" />
+            <End Role="LoteXEnvio" EntitySet="LoteXEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lote__ID_Product__4BAC3F29" Association="Self.FK__Lote__ID_Product__4BAC3F29">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Lote" EntitySet="Lote" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lote__ID_Usuario__4CA06362" Association="Self.FK__Lote__ID_Usuario__4CA06362">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Lote" EntitySet="Lote" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXDevo__ID_Lo__68487DD7" Association="Self.FK__LoteXDevo__ID_Lo__68487DD7">
+            <End Role="Lote" EntitySet="Lote" />
+            <End Role="LoteXDevolucion" EntitySet="LoteXDevolucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXEnvi__ID_Lo__5AEE82B9" Association="Self.FK__LoteXEnvi__ID_Lo__5AEE82B9">
+            <End Role="Lote" EntitySet="Lote" />
+            <End Role="LoteXEnvio" EntitySet="LoteXEnvio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXEnvi__ID_Lo__5EBF139D" Association="Self.FK__LoteXEnvi__ID_Lo__5EBF139D">
+            <End Role="LoteXEnvio" EntitySet="LoteXEnvio" />
+            <End Role="LoteXEnvioXVenta" EntitySet="LoteXEnvioXVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoteXEnvi__ID_Ve__5FB337D6" Association="Self.FK__LoteXEnvi__ID_Ve__5FB337D6">
+            <End Role="Venta" EntitySet="Venta" />
+            <End Role="LoteXEnvioXVenta" EntitySet="LoteXEnvioXVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__ID_Rol__3A81B327" Association="Self.FK__Usuario__ID_Rol__3A81B327">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Venta__ID_Usuari__4222D4EF" Association="Self.FK__Venta__ID_Usuari__4222D4EF">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GestionStock_v1ModelStoreContainer" CdmEntityContainer="GestionStock_v1Entities">
+          <EntitySetMapping Name="Devolucion">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.Devolucion">
+              <MappingFragment StoreEntitySet="Devolucion">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Usuario" ColumnName="ID_Usuario" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Envio">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.Envio">
+              <MappingFragment StoreEntitySet="Envio">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID_Usuario" ColumnName="ID_Usuario" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoLote">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.EstadoLote">
+              <MappingFragment StoreEntitySet="EstadoLote">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lote">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.Lote">
+              <MappingFragment StoreEntitySet="Lote">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CantidadInicial" ColumnName="CantidadInicial" />
+                <ScalarProperty Name="CantidadActual" ColumnName="CantidadActual" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="ID_Producto" ColumnName="ID_Producto" />
+                <ScalarProperty Name="ID_Usuario" ColumnName="ID_Usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoteXDevolucion">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.LoteXDevolucion">
+              <MappingFragment StoreEntitySet="LoteXDevolucion">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="ID_Lote" ColumnName="ID_Lote" />
+                <ScalarProperty Name="ID_Devolucion" ColumnName="ID_Devolucion" />
+                <ScalarProperty Name="ID_EstadoLote" ColumnName="ID_EstadoLote" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoteXEnvio">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.LoteXEnvio">
+              <MappingFragment StoreEntitySet="LoteXEnvio">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CantidadInicial" ColumnName="CantidadInicial" />
+                <ScalarProperty Name="CantidadRecibido" ColumnName="CantidadRecibido" />
+                <ScalarProperty Name="CantidadActual" ColumnName="CantidadActual" />
+                <ScalarProperty Name="ID_EstadoLote" ColumnName="ID_EstadoLote" />
+                <ScalarProperty Name="ID_Lote" ColumnName="ID_Lote" />
+                <ScalarProperty Name="ID_Envio" ColumnName="ID_Envio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoteXEnvioXVenta">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.LoteXEnvioXVenta">
+              <MappingFragment StoreEntitySet="LoteXEnvioXVenta">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_LoteXEnvio" ColumnName="ID_LoteXEnvio" />
+                <ScalarProperty Name="ID_Venta" ColumnName="ID_Venta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="ID_Rol" ColumnName="ID_Rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Venta">
+            <EntityTypeMapping TypeName="GestionStock_v1Model.Venta">
+              <MappingFragment StoreEntitySet="Venta">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="ID_Usuario" ColumnName="ID_Usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

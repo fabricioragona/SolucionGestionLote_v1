@@ -1,0 +1,155 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace API_ADO_GestionStock.Models
+{
+    public class Lote
+    {
+        #region Atributo 
+
+        string conectionString = @"Data Source=COR0566; Initial Catalog=GestionStock_v1; Integrated Security= True ";
+
+        #endregion
+
+        #region Propiedades 
+
+
+        public int ID { get; set; }
+        public string Nombre { get; set; }
+        public int CantidadInicial { get; set; }
+        public int CantidadActual { get; set; }
+        public DateTime FechaCreacion { get; set; }
+
+        public int ID_Producto { get; set; }
+
+        public int ID_Usuario { get; set; }
+
+        #endregion
+
+
+        #region Metodos
+
+        public DataTable ListarTodos()
+        {
+            string sqlsentencia = "select * from Lote";
+
+            SqlConnection sqlCnn = new SqlConnection();
+            sqlCnn.ConnectionString = conectionString;
+
+
+            SqlCommand sqlCom = new SqlCommand(sqlsentencia, sqlCnn);
+
+            sqlCnn.Open();
+
+
+            DataSet ds = new DataSet();
+
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = sqlCom;
+            da.Fill(ds);
+
+
+            sqlCnn.Close();
+
+
+            return ds.Tables[0];
+
+        }
+
+
+        public DataTable ListarPorId()
+        {
+            string sqlsentencia = "select * from Lote where ID=" + ID;
+
+            SqlConnection sqlCnn = new SqlConnection();
+            sqlCnn.ConnectionString = conectionString;
+
+            SqlCommand sqlCom = new SqlCommand(sqlsentencia, sqlCnn);
+
+
+            sqlCnn.Open();
+
+
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = sqlCom;
+
+            DataSet ds = new DataSet();
+
+            da.Fill(ds);
+
+
+            sqlCnn.Close();
+
+            return ds.Tables[0];
+        }
+
+        public void Guardar()
+        {
+            string sqlsentencia = "insert into Lote values ('" + Nombre + "'," + CantidadInicial + "," + CantidadActual + ",'" + FechaCreacion + "'," + ID_Producto +"," + ID_Usuario + ")";
+
+            SqlConnection sqlCnn = new SqlConnection();
+            sqlCnn.ConnectionString = conectionString;
+
+            SqlCommand sqlCom = new SqlCommand(sqlsentencia, sqlCnn);
+
+
+            sqlCnn.Open();
+
+            sqlCom.ExecuteNonQuery();
+
+            sqlCnn.Close();
+
+        }
+
+
+        public void Modificar()
+        {
+           string sqlsentencia = "update Lote set Nombre='" + Nombre + "', CantidadInicial = " + CantidadInicial + ", CantidadActual =" + CantidadActual + ", FechaCreacion ='" + FechaCreacion + "', ID_Producto =" + ID_Producto + ", ID_Usuario ='" + ID_Usuario + "' where ID = " + ID;
+
+
+            SqlConnection sqlCnn = new SqlConnection();
+            sqlCnn.ConnectionString = conectionString;
+
+            SqlCommand sqlCom = new SqlCommand(sqlsentencia, sqlCnn);
+           
+
+
+            sqlCnn.Open();
+
+
+           sqlCom.ExecuteNonQuery();
+
+            sqlCnn.Close();
+
+
+        }
+
+
+
+        public void Eliminar()
+        {
+            string sqlsentencia = "delete  from Lote where ID=" + ID;
+
+            SqlConnection sqlCnn = new SqlConnection();
+            sqlCnn.ConnectionString = conectionString;
+
+            SqlCommand sqlCom = new SqlCommand(sqlsentencia, sqlCnn);
+
+
+            sqlCnn.Open();
+
+            sqlCom.ExecuteNonQuery();
+
+            sqlCnn.Close();
+
+
+        }
+
+        #endregion
+    }
+}
+
